@@ -60,7 +60,7 @@ This C++ program implements a parking lot management system, providing efficient
 - Occupied Regular Spots by Van: 0
 - Occupied Big Spots by Van: 1
 
-## UI Diagram
+## UML Class Diagram
 
 ![WhatsApp Image 2024-01-14 at 16 47 09](https://github.com/Mohit-6515/2020A7PS1707G_ODE_Holdings/assets/77959274/8237b986-8ff4-410b-ab0b-85f74f4960b3)
 
