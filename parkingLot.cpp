@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 // Abstract base class for vehicles
@@ -14,14 +12,14 @@ public:
 class Motorcycle : public Vehicle {
 public:
     int getSpotsNeeded(const string& spotType) const override { return 1; }
-    std::string getType() const override { return "Motorcycle"; }
+    string getType() const override { return "Motorcycle"; }
 };
 
 // Concrete class for Car
 class Car : public Vehicle {
 public:
     int getSpotsNeeded(const string& spotType) const override { return 1; }
-    std::string getType() const override { return "Car"; }
+    string getType() const override { return "Car"; }
 };
 
 // Concrete class for Van
@@ -30,7 +28,7 @@ public:
     int getSpotsNeeded(const string& spotType) const override {
         return (spotType == "Big") ? 1 : 3;
     }
-    std::string getType() const override { return "Van"; }
+    string getType() const override { return "Van"; }
 };
 
 // ParkingSpot class
@@ -64,26 +62,22 @@ public:
 // ParkingLot class
 class ParkingLot {
 private:
-    int totalMotorcycleSpots;
-    int totalRegularCarSpots;
-    int totalBigSpots;
+    map<string,int> totalSpots;
+    map<string,int> remainingSpots;
 
-    int remainingMotorcycleSpots;
-    int remainingRegularCarSpots;
-    int remainingBigSpots;
-
-    std::vector<ParkingSpot> motorcycleSpots;
-    std::vector<ParkingSpot> regularSpots;
-    std::vector<ParkingSpot> bigSpots;
+    vector<ParkingSpot> motorcycleSpots;
+    vector<ParkingSpot> regularSpots;
+    vector<ParkingSpot> bigSpots;
 
 public:
-    ParkingLot(int motorcycleSpots, int regularCarSpots, int bigSpots)
-        : totalMotorcycleSpots(motorcycleSpots),
-          totalBigSpots(bigSpots),
-          totalRegularCarSpots(regularCarSpots),
-          remainingMotorcycleSpots(motorcycleSpots),
-          remainingRegularCarSpots(regularCarSpots),
-          remainingBigSpots(bigSpots) {
+    ParkingLot(int motorcycleSpots, int regularCarSpots, int bigSpots){
+        totalSpots["Motorcycle"] = motorcycleSpots;
+        totalSpots["Regular"] = regularCarSpots;
+        totalSpots["Big"] = bigSpots;
+
+        remainingSpots["Motorcycle"] = motorcycleSpots;
+        remainingSpots["Regular"] = regularCarSpots;
+        remainingSpots["Big"] = bigSpots;
 
         // Initialize parking spots
         for (int i = 0; i < motorcycleSpots; ++i) {
@@ -100,47 +94,19 @@ public:
     }
 
     int getRemainingSpots(const string& spotType) const {
-        if (spotType == "Motorcycle") {
-            return remainingMotorcycleSpots;
-        } else if (spotType == "Regular") {
-            return remainingRegularCarSpots;
-        } else if (spotType == "Big") {
-            return remainingBigSpots;
-        }
-        return 0;
+        return remainingSpots.at(spotType);
     }
 
     int getTotalSpots(const string& spotType) const {
-        if (spotType == "Motorcycle") {
-            return totalMotorcycleSpots;
-        } else if (spotType == "Regular") {
-            return totalRegularCarSpots;
-        } else if (spotType == "Big") {
-            return totalBigSpots;
-        }
-        return 0;
+        return totalSpots.at(spotType);
     }
 
     bool isFull(const string& spotType) const {
-        if (spotType == "Motorcycle") {
-            return remainingMotorcycleSpots == 0;
-        } else if (spotType == "Regular") {
-            return remainingRegularCarSpots == 0;
-        } else if (spotType == "Big") {
-            return remainingBigSpots == 0;
-        }
-        return false;
+        return remainingSpots.at(spotType)==0;
     }
 
     bool isEmpty(const string& spotType) const {
-        if (spotType == "Motorcycle") {
-            return remainingMotorcycleSpots == totalMotorcycleSpots;
-        } else if (spotType == "Regular") {
-            return remainingRegularCarSpots == totalRegularCarSpots;
-        } else if (spotType == "Big") {
-            return remainingBigSpots == totalBigSpots;
-        }
-        return false;
+        return remainingSpots.at(spotType)==totalSpots.at(spotType);
     }
 
     int getOccupiedVanSpots() const {
@@ -179,7 +145,7 @@ public:
         for (auto& spot : motorcycleSpots) {
             if (!spot.isOccupied() && spot.getVehicle() == nullptr) {
                 spot.parkVehicle(v);
-                remainingMotorcycleSpots--;
+                remainingSpots["Motorcycle"]--;
                 break;
             }
         }
@@ -193,19 +159,19 @@ public:
                     reqSpots--;
                     spot.parkVehicle(v);
                     if (reqSpots == 0) {
-                        remainingRegularCarSpots -= numSpots;
+                        remainingSpots["Regular"] -= numSpots;
                         break;
                     }
                 }
             }
-        } else cout<<"Number of Available Spots aren't enough to park"<<endl;
+        }
     }
 
     void parkInBigSpot(Vehicle* v) {
         for (auto& spot : bigSpots) {
             if (!spot.isOccupied() && spot.getVehicle() == nullptr) {
                 spot.parkVehicle(v);
-                remainingBigSpots--;
+                remainingSpots["Big"]--;
                 break;
             }
         }
