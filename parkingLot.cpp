@@ -3,14 +3,21 @@ using namespace std;
 
 // Abstract base class for vehicles
 class Vehicle {
+protected:
+    string plateNumber;
+
 public:
+    Vehicle(const string& plate) : plateNumber(plate) {}
+    
     virtual int getSpotsNeeded(const string& spotType) const = 0;
     virtual string getType() const = 0;
+    string getPlateNumber() const { return plateNumber; }
 };
 
 // Concrete class for Motorcycle
 class Motorcycle : public Vehicle {
 public:
+    Motorcycle(const string& plate) : Vehicle(plate) {}
     int getSpotsNeeded(const string& spotType) const override { return 1; }
     string getType() const override { return "Motorcycle"; }
 };
@@ -18,6 +25,7 @@ public:
 // Concrete class for Car
 class Car : public Vehicle {
 public:
+    Car(const string& plate) : Vehicle(plate) {}
     int getSpotsNeeded(const string& spotType) const override { return 1; }
     string getType() const override { return "Car"; }
 };
@@ -25,6 +33,7 @@ public:
 // Concrete class for Van
 class Van : public Vehicle {
 public:
+    Van(const string& plate) : Vehicle(plate) {}
     int getSpotsNeeded(const string& spotType) const override {
         return (spotType == "Big") ? 1 : 3;
     }
@@ -57,6 +66,7 @@ public:
     }
 
     Vehicle* getVehicle() const { return vehicle; }
+    string getPlateNumber() const { return (occupied) ? vehicle->getPlateNumber() : ""; }
 };
 
 // ParkingLot class
@@ -190,16 +200,28 @@ public:
         cout << "Remaining " << spotType << " Spots: " << getRemainingSpots(spotType) << endl;
         cout << "Status of " << spotType << " Spots: " << (isFull(spotType) ? "Full" : (isEmpty(spotType) ? "Empty" : "Available")) << endl;
     }
+
+    string getVehiclePlateNumber(const string& spotType, int spotIndex) const {
+        if (spotType == "Motorcycle" && spotIndex >= 0 && spotIndex < motorcycleSpots.size()) {
+            return motorcycleSpots[spotIndex].getPlateNumber();
+        } else if (spotType == "Regular" && spotIndex >= 0 && spotIndex < regularSpots.size()) {
+            return regularSpots[spotIndex].getPlateNumber();
+        } else if (spotType == "Big" && spotIndex >= 0 && spotIndex < bigSpots.size()) {
+            return bigSpots[spotIndex].getPlateNumber();
+        } else {
+            return "";
+        }
+    }
 };
 
 int main() {
     // Create a parking lot with 10 motorcycle spots, 10 regular car spots, and 3 big spots
     ParkingLot parkingLot(10, 10, 3);
 
-    // Create vehicles
-    Motorcycle motorcycle1;
-    Car car1;
-    Van van1;
+    // Create vehicles with plate numbers
+    Motorcycle motorcycle1("M123");
+    Car car1("C456");
+    Van van1("V789");
 
     // Park vehicles
     parkingLot.parkVehicle(&motorcycle1, "Motorcycle");
