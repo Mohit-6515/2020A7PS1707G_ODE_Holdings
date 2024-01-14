@@ -60,44 +60,9 @@ This C++ program implements a parking lot management system, providing efficient
 - Occupied Regular Spots by Van: 0
 - Occupied Big Spots by Van: 1
 
-## Class Structure Overview
+## UI Diagram
 
-### Vehicle Hierarchy
-- **Vehicle**: Abstract base class for vehicles.
-  - `getSpotsNeeded(): int`
-  - `getType(): string`
-
-  - **Motorcycle**: Inherits from Vehicle.
-    - `getSpotsNeeded(): int`
-    - `getType(): string`
-
-  - **Car**: Inherits from Vehicle.
-    - `getSpotsNeeded(): int`
-    - `getType(): string`
-
-  - **Van**: Inherits from Vehicle.
-    - `getSpotsNeeded(): int`
-    - `getType(): string`
-
-### ParkingSpot and ParkingLot
-- **ParkingSpot**: Represents a parking spot.
-  - `isOccupied(): bool`
-  - `parkVehicle(v: Vehicle): void`
-  - `removeVehicle(): void`
-  - `getVehicle(): Vehicle*`
-
-- **ParkingLot**: Manages the overall parking lot.
-  - `getRemainingSpots(spotType: string): int`
-  - `getTotalSpots(spotType: string): int`
-  - `isFull(spotType: string): bool`
-  - `isEmpty(spotType: string): bool`
-  - `getOccupiedVanSpots(): int`
-  - `parkVehicle(v: Vehicle, spotType: string): void`
-  - `parkInMotorcycleSpot(v: Vehicle): void`
-  - `parkInRegularSpots(v: Vehicle, numSpots: int): void`
-  - `parkInBigSpot(v: Vehicle): void`
-  - `printParkingLotStatus(): void`
-  - `printSpotStatus(spotType: string): void`
+![WhatsApp Image 2024-01-14 at 16 47 09](https://github.com/Mohit-6515/2020A7PS1707G_ODE_Holdings/assets/77959274/8237b986-8ff4-410b-ab0b-85f74f4960b3)
 
 ## Details Of Student:
 - Name: Mohit Sharma
