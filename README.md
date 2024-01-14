@@ -60,6 +60,57 @@ This C++ program implements a parking lot management system, providing efficient
 - Occupied Regular Spots by Van: 0
 - Occupied Big Spots by Van: 1
 
+# UML Class Diagram
+
+## Classes
+
+### Vehicle
+- `getSpotsNeeded(): int`
+- `getType(): string`
+
+### Motorcycle : Vehicle
+- `getSpotsNeeded(): int`
+- `getType(): string`
+
+### Car : Vehicle
+- `getSpotsNeeded(): int`
+- `getType(): string`
+
+### Van : Vehicle
+- `getSpotsNeeded(): int`
+- `getType(): string`
+
+### ParkingSpot
+- `-occupied: bool`
+- `-vehicle: Vehicle*`
+- `+isOccupied(): bool`
+- `+parkVehicle(v: Vehicle): void`
+- `+removeVehicle(): void`
+- `+getVehicle(): Vehicle*`
+
+### ParkingLot
+- `-totalSpots: map<string, int>`
+- `-remainingSpots: map<string, int>`
+- `-motorcycleSpots: vector<ParkingSpot>`
+- `-regularSpots: vector<ParkingSpot>`
+- `-bigSpots: vector<ParkingSpot>`
+- `+getRemainingSpots(spotType: string): int`
+- `+getTotalSpots(spotType: string): int`
+- `+isFull(spotType: string): bool`
+- `+isEmpty(spotType: string): bool`
+- `+getOccupiedVanSpots(): int`
+- `+parkVehicle(v: Vehicle, spotType: string): void`
+- `+parkInMotorcycleSpot(v: Vehicle): void`
+- `+parkInRegularSpots(v: Vehicle, numSpots: int): void`
+- `+parkInBigSpot(v: Vehicle): void`
+- `+printParkingLotStatus(): void`
+- `+printSpotStatus(spotType: string): void`
+
+## Relationships
+- Motorcycle, Car, Van inherit from Vehicle
+- ParkingSpot has a composition relationship with Vehicle
+- ParkingLot has composition relationships with ParkingSpot
+
 ## Details Of Student:
 - Name: Mohit Sharma
 - BITS ID: 2020A7PS1707G
